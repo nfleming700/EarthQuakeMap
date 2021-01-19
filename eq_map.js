@@ -1,6 +1,9 @@
 let mapbox_config;
 let mapimg;
 
+let width = 1024;
+let height = 512;
+
 function preload ()
 {
     console.log ( "setup" );
@@ -14,7 +17,7 @@ function preload ()
 
 function setup ()
 {
-    createCanvas ( 600, 600 );
+    createCanvas ( width, height );
 
     image ( mapimg, 0, 0 );
 }
@@ -27,11 +30,11 @@ function draw ()
 
 function get_map_url ()
 {
-    let href = "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/";
+    let href = "https://api.mapbox.com/styles/v1/mapbox/dark-v9/static/";
 
-    let gps = "-122.4241,37.78,14.25,0,60";
+    let gps = "0,0,1,0,0";
 
-    let size = "600x600";
+    let size = `${width}x${height}`;
 
     let key = mapbox_config [ "api_key" ];
 

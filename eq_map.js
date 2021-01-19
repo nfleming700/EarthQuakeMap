@@ -1,5 +1,6 @@
 let mapbox_config;
 let mapimg;
+let earthquakes;
 
 let width = 1024;
 let height = 512;
@@ -18,6 +19,8 @@ function preload ()
     mapbox_config = loadJSON ( "mapbox.json",
         () => mapimg = loadImage ( get_map_url () )
     );
+
+    earthquakes = loadStrings ( "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.csv" );
 
     
 }
@@ -38,11 +41,23 @@ function draw ()
     let cx = mercX(clon);
     let cy = mercY(clat);
 
-    let x = mercX ( london_lon ) - cx;
-    let y = mercY ( london_lat ) - cy;
+    for ( const i of earthquakes )
+    {
+        let data = i.split ( /,/ );
 
-    fill(255,255,0,255);
-    ellipse(x,y,20,20);
+        let e_lat = data [ 1 ];
+        let e_lon = data [ 2 ];
+        let e_mag = data [ 4 ];
+
+        let x = mercX ( e_lon ) - cx;
+        let y = mercY ( e_lat ) - cy;
+
+        let size = map ( e_mag, 0, 8, 2, 20 );
+
+        fill(255,255,0,255);
+        ellipse(x,y,size,size);
+
+    }
 
     noLoop ();
 }
@@ -59,7 +74,6 @@ function get_map_url ()
 
     return `${href}${gps}/${size}?access_token=${key}`;
 }
-
 
 function mercX ( lon )
 {

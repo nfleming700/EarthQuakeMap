@@ -20,7 +20,7 @@ function preload ()
         () => mapimg = loadImage ( get_map_url () )
     );
 
-    earthquakes = loadStrings ( "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.csv" );
+    earthquakes = loadStrings ( "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv" );
 
     
 }
@@ -52,10 +52,13 @@ function draw ()
         let x = mercX ( e_lon ) - cx;
         let y = mercY ( e_lat ) - cy;
 
-        let size = map ( e_mag, 0, 8, 2, 20 );
+        let mag = sqrt ( pow ( 10, e_mag ) );
+        let magmax = sqrt( pow ( 10, 8 ) );
 
+        let d = map ( mag, 0, magmax, 1, 80 );
+        noStroke();
         fill(255,255,0,255);
-        ellipse(x,y,size,size);
+        ellipse(x,y,d,d);
 
     }
 
